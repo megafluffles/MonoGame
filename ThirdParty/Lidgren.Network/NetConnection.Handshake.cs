@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace Lidgren.Network
@@ -25,8 +26,10 @@ namespace Lidgren.Network
 		{
 			m_peer.VerifyNetworkThread();
 
-			if (m_disconnectRequested)
-				ExecuteDisconnect(m_disconnectMessage, true);
+            if (m_disconnectRequested)
+            {
+                ExecuteDisconnect(m_disconnectMessage, true);
+            }
 
 			if (m_connectRequested)
 			{
@@ -63,8 +66,8 @@ namespace Lidgren.Network
 			{
 				if (m_handshakeAttempts >= m_peerConfiguration.m_maximumHandshakeAttempts)
 				{
-					// failed to connect
-					ExecuteDisconnect("Failed to establish connection - no response from remote host", true);
+                    // failed to connect
+                    ExecuteDisconnect("Failed to establish connection - no response from remote host", true);
 					return;
 				}
 
