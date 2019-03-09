@@ -8,6 +8,7 @@ using System.Threading;
 using System.ComponentModel;
 
 using Lidgren.Network;
+using System.Linq;
 
 namespace Microsoft.Xna.Framework.Net
 {
@@ -46,7 +47,16 @@ namespace Microsoft.Xna.Framework.Net
 	  			if (objects.Length > 0)
 	 			{
 	   				applicationIdentifier = ((System.Runtime.InteropServices.GuidAttribute)objects[0]).Value;
-	 			} 			
+	 			}
+                var serverDetails = (Attribute)assembly.GetCustomAttributes(false).Where(a => a.GetType().Name == "NetGameDetailsAttribute").FirstOrDefault();
+                if (serverDetails != null)
+                {
+                    var type = serverDetails.GetType();
+
+                    masterserverport = (int)type.GetProperty("Port").GetValue(serverDetails);
+                    masterServer = type.GetProperty("Address").GetValue(serverDetails).ToString();
+                    applicationIdentifier = type.GetProperty("ApplicationId").GetValue(serverDetails).ToString();
+                }
 			}
 #else
             
