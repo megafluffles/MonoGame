@@ -24,9 +24,13 @@ namespace Lidgren.Network
 		/// <param name="method">How to deliver the message</param>
 		public void SendToAll(NetOutgoingMessage msg, NetDeliveryMethod method)
 		{
-			var all = this.Connections;
-			if (all.Count <= 0)
+			// Modifying m_connections will modify the list of the connections of the NetPeer. Do only reads here
+			var all = m_connections;
+			if (all.Count <= 0) {
+				if (msg.m_isSent == false)
+					Recycle(msg);
 				return;
+			}
 
 			SendMessage(msg, all, method, 0);
 		}
@@ -40,9 +44,13 @@ namespace Lidgren.Network
 		/// <param name="sequenceChannel">Which sequence channel to use for the message</param>
 		public void SendToAll(NetOutgoingMessage msg, NetConnection except, NetDeliveryMethod method, int sequenceChannel)
 		{
-			var all = this.Connections;
-			if (all.Count <= 0)
+			// Modifying m_connections will modify the list of the connections of the NetPeer. Do only reads here
+			var all = m_connections;
+			if (all.Count <= 0) {
+				if (msg.m_isSent == false)
+					Recycle(msg);
 				return;
+			}
 
 			if (except == null)
 			{
