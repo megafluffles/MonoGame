@@ -1,8 +1,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.22609.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidgren.Network.WindowsGL", "ThirdParty\Lidgren.Network\Lidgren.Network.WindowsGL.csproj", "{AE483C29-042E-4226-BA52-D247CE7676DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidgren.Network.WindowsGL", "ThirdParty\Lidgren.Network\Lidgren.Network.WindowsGL.csproj", "{9E89BF17-C551-48FD-9C36-816B8FE20EFA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Framework.Net.WindowsGL", "MonoGame.Framework\MonoGame.Framework.Net.WindowsGL.csproj", "{6D6009F4-0AFB-4806-89D7-7945F20270F5}"
 EndProject
@@ -16,10 +16,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AE483C29-042E-4226-BA52-D247CE7676DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AE483C29-042E-4226-BA52-D247CE7676DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AE483C29-042E-4226-BA52-D247CE7676DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AE483C29-042E-4226-BA52-D247CE7676DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E89BF17-C551-48FD-9C36-816B8FE20EFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E89BF17-C551-48FD-9C36-816B8FE20EFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E89BF17-C551-48FD-9C36-816B8FE20EFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E89BF17-C551-48FD-9C36-816B8FE20EFA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6D6009F4-0AFB-4806-89D7-7945F20270F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6D6009F4-0AFB-4806-89D7-7945F20270F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D6009F4-0AFB-4806-89D7-7945F20270F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +33,10 @@ Global
 		{DED2DDB6-D4BE-B1B4-2E54-657374732E57}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DED2DDB6-D4BE-B1B4-2E54-657374732E57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {582F318E-F5BE-4057-9B5C-625B081A3FF5}
 	EndGlobalSection
 EndGlobal
