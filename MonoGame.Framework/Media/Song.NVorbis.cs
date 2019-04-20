@@ -5,7 +5,7 @@
 using System;
 using System.IO;
 using Microsoft.Xna.Framework.Audio;
-using OpenAL;
+using MonoGame.OpenAL;
 
 namespace Microsoft.Xna.Framework.Media
 {
@@ -16,6 +16,9 @@ namespace Microsoft.Xna.Framework.Media
 
         private void PlatformInitialize(string fileName)
         {
+            // init OpenAL if need be
+            OpenALSoundController.EnsureInitialized();
+
             stream = new OggStream(fileName, OnFinishedPlaying);
             stream.Prepare();
 

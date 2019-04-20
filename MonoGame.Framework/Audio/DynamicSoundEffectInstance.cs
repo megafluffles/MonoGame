@@ -76,6 +76,10 @@ namespace Microsoft.Xna.Framework.Audio
         /// <param name="channels">Number of channels (mono or stereo).</param>
         public DynamicSoundEffectInstance(int sampleRate, AudioChannels channels)
         {
+            SoundEffect.Initialize();
+            if (SoundEffect._systemState != SoundEffect.SoundSystemState.Initialized)
+                throw new NoAudioHardwareException("Audio has failed to initialize. Call SoundEffect.Initialize() before sound operation to get more specific errors.");
+
             if ((sampleRate < 8000) || (sampleRate > 48000))
                 throw new ArgumentOutOfRangeException("sampleRate");
             if ((channels != AudioChannels.Mono) && (channels != AudioChannels.Stereo))
@@ -289,12 +293,14 @@ namespace Microsoft.Xna.Framework.Audio
             PlatformUpdateQueue();
 
             // Raise the event
-            if (BufferNeeded != null)
+            var bufferNeededHandler = BufferNeeded;
+
+            if (bufferNeededHandler != null)
             {
                 var eventCount = (_buffersNeeded < 3) ? _buffersNeeded : 3;
                 for (var i = 0; i < eventCount; i++)
                 {
-                    BufferNeeded(this, EventArgs.Empty);
+                    bufferNeededHandler(this, EventArgs.Empty);
                 }
             }
 

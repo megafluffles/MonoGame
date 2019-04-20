@@ -33,13 +33,11 @@ namespace Microsoft.Xna.Framework
         {
             DynamicSoundEffectInstanceManager.UpdatePlayingInstances();
             SoundEffectInstancePool.Update();
+            Microphone.UpdateMicrophones();
         }
 
         private static void Initialize()
         {
-            // Initialize sound system
-            SoundEffect.InitializeSoundEffect();
-
             _initialized = true;
         }
     }

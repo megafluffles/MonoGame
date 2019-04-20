@@ -23,7 +23,7 @@ namespace Microsoft.Xna.Framework {
         /// </summary>
         public virtual bool AllowAltF4 { get { return _allowAltF4; } set { _allowAltF4 = value; } }
 
-#if (WINDOWS && !WINRT) || DESKTOPGL
+#if (WINDOWS && !WINDOWS_UAP) || DESKTOPGL
         /// <summary>
         /// The location of this window on the desktop, eg: global coordinate space
         /// which stretches across all screens.
@@ -102,6 +102,8 @@ namespace Microsoft.Xna.Framework {
 		/// This event is only supported on the Windows DirectX, Windows OpenGL and Linux platforms.
 		/// </remarks>
 		public event EventHandler<TextInputEventArgs> TextInput;
+
+        internal bool IsTextInputHandled { get { return TextInput != null; } }
 #endif
 
 		#endregion Events
@@ -122,8 +124,7 @@ namespace Microsoft.Xna.Framework {
 
 		internal void OnClientSizeChanged ()
 		{
-			if (ClientSizeChanged != null)
-				ClientSizeChanged (this, EventArgs.Empty);
+            EventHelpers.Raise(this, ClientSizeChanged, EventArgs.Empty);
 		}
 
 		protected void OnDeactivated ()
@@ -132,8 +133,7 @@ namespace Microsoft.Xna.Framework {
          
 		protected void OnOrientationChanged ()
 		{
-			if (OrientationChanged != null)
-				OrientationChanged (this, EventArgs.Empty);
+            EventHelpers.Raise(this, OrientationChanged, EventArgs.Empty);
 		}
 
 		protected void OnPaint ()
@@ -142,15 +142,13 @@ namespace Microsoft.Xna.Framework {
 
 		protected void OnScreenDeviceNameChanged ()
 		{
-			if (ScreenDeviceNameChanged != null)
-				ScreenDeviceNameChanged (this, EventArgs.Empty);
+            EventHelpers.Raise(this, ScreenDeviceNameChanged, EventArgs.Empty);
 		}
 
 #if WINDOWS || WINDOWS_UAP || DESKTOPGL || ANGLE
 		protected void OnTextInput(object sender, TextInputEventArgs e)
 		{
-			if (TextInput != null)
-				TextInput(sender, e);
+            EventHelpers.Raise(this, TextInput, e);
 		}
 #endif
 
