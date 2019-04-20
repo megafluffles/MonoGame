@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using Microsoft.Xna.Framework.Utilities;
+using MonoGame.Utilities;
 using System.Runtime.InteropServices;
 
 
@@ -420,6 +420,9 @@ namespace Microsoft.Xna.Framework.Graphics
                     newBlendState = _blendStateNonPremultiplied;
                 else if (ReferenceEquals(_blendState, BlendState.Opaque))
                     newBlendState = _blendStateOpaque;
+
+                if (newBlendState.IndependentBlendEnable && !GraphicsCapabilities.SupportsSeparateBlendStates)
+                    throw new PlatformNotSupportedException("Independent blend states requires at least OpenGL 4.0 or GL_ARB_draw_buffers_blend. Try upgrading your graphics drivers.");
 
                 // Blend state is now bound to a device... no one should
                 // be changing the state of the blend state object now!

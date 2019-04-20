@@ -551,81 +551,6 @@ namespace MonoGame.OpenGL
 
         internal static RenderApi BoundApi = RenderApi.GL;
 
-        internal partial class Ext
-        {
-            [System.Security.SuppressUnmanagedCodeSecurity ()]
-            [MonoNativeFunctionWrapper]
-            internal delegate void GenRenderbuffersDelegate (int count, out int buffer);
-            internal static GenRenderbuffersDelegate GenRenderbuffers;
-
-            [System.Security.SuppressUnmanagedCodeSecurity ()]
-            [MonoNativeFunctionWrapper]
-            internal delegate void BindRenderbufferDelegate (RenderbufferTarget target, int buffer);
-            internal static BindRenderbufferDelegate BindRenderbuffer;
-
-            [System.Security.SuppressUnmanagedCodeSecurity ()]
-            [MonoNativeFunctionWrapper]
-            internal delegate void DeleteRenderbuffersDelegate (int count, ref int buffer);
-            internal static DeleteRenderbuffersDelegate DeleteRenderbuffers;
-
-            [System.Security.SuppressUnmanagedCodeSecurity ()]
-            [MonoNativeFunctionWrapper]
-            internal delegate void RenderbufferStorageMultisampleDelegate (RenderbufferTarget target, int sampleCount,
-                RenderbufferStorage storage, int width, int height);
-            internal static RenderbufferStorageMultisampleDelegate RenderbufferStorageMultisample;
-
-            [System.Security.SuppressUnmanagedCodeSecurity ()]
-            [MonoNativeFunctionWrapper]
-            internal delegate void GenFramebuffersDelegate (int count, out int buffer);
-            internal static GenFramebuffersDelegate GenFramebuffers;
-
-            [System.Security.SuppressUnmanagedCodeSecurity ()]
-            [MonoNativeFunctionWrapper]
-            internal delegate void BindFramebufferDelegate (FramebufferTarget target, int buffer);
-            internal static BindFramebufferDelegate BindFramebuffer;
-
-            [System.Security.SuppressUnmanagedCodeSecurity ()]
-            [MonoNativeFunctionWrapper]
-            internal delegate void DeleteFramebuffersDelegate (int count, ref int buffer);
-            internal static DeleteFramebuffersDelegate DeleteFramebuffers;
-
-            [System.Security.SuppressUnmanagedCodeSecurity ()]
-            [MonoNativeFunctionWrapper]
-            internal delegate void FramebufferTexture2DDelegate (FramebufferTarget target, FramebufferAttachment attachement,
-                TextureTarget textureTarget, int texture, int level);
-            internal static FramebufferTexture2DDelegate FramebufferTexture2D;
-
-            [System.Security.SuppressUnmanagedCodeSecurity ()]
-            [MonoNativeFunctionWrapper]
-            internal delegate void FramebufferRenderbufferDelegate (FramebufferTarget target, FramebufferAttachment attachement,
-                RenderbufferTarget renderBufferTarget, int buffer);
-            internal static FramebufferRenderbufferDelegate FramebufferRenderbuffer;
-
-            [System.Security.SuppressUnmanagedCodeSecurity ()]
-            [MonoNativeFunctionWrapper]
-            internal delegate void GenerateMipmapDelegate (GenerateMipmapTarget target);
-            internal static GenerateMipmapDelegate GenerateMipmap;
-
-            [System.Security.SuppressUnmanagedCodeSecurity ()]
-            [MonoNativeFunctionWrapper]
-            internal delegate void BlitFramebufferDelegate (int srcX0,
-                int srcY0,
-                int srcX1,
-                int srcY1,
-                int dstX0,
-                int dstY0,
-                int dstX1,
-                int dstY1,
-                ClearBufferMask mask,
-                BlitFramebufferFilter filter);
-            internal static BlitFramebufferDelegate BlitFramebuffer;
-
-            [System.Security.SuppressUnmanagedCodeSecurity ()]
-            [MonoNativeFunctionWrapper]
-            internal delegate FramebufferErrorCode CheckFramebufferStatusDelegate (FramebufferTarget target);
-            internal static CheckFramebufferStatusDelegate CheckFramebufferStatus;
-        }
-
         [System.Security.SuppressUnmanagedCodeSecurity ()]
         [MonoNativeFunctionWrapper]
         internal delegate void EnableVertexAttribArrayDelegate (int attrib);
@@ -1019,11 +944,22 @@ namespace MonoGame.OpenGL
         internal delegate void BlendEquationSeparateDelegate (BlendEquationMode colorMode, BlendEquationMode alphaMode);
         internal static BlendEquationSeparateDelegate BlendEquationSeparate;
 
+        [System.Security.SuppressUnmanagedCodeSecurity()]
+        [MonoNativeFunctionWrapper]
+        internal delegate void BlendEquationSeparateiDelegate(int buffer, BlendEquationMode colorMode, BlendEquationMode alphaMode);
+        internal static BlendEquationSeparateiDelegate BlendEquationSeparatei;
+
         [System.Security.SuppressUnmanagedCodeSecurity ()]
         [MonoNativeFunctionWrapper]
         internal delegate void BlendFuncSeparateDelegate (BlendingFactorSrc colorSrc, BlendingFactorDest colorDst,
             BlendingFactorSrc alphaSrc, BlendingFactorDest alphaDst);
         internal static BlendFuncSeparateDelegate BlendFuncSeparate;
+
+        [System.Security.SuppressUnmanagedCodeSecurity ()]
+        [MonoNativeFunctionWrapper]
+        internal delegate void BlendFuncSeparateiDelegate(int buffer, BlendingFactorSrc colorSrc, BlendingFactorDest colorDst,
+            BlendingFactorSrc alphaSrc, BlendingFactorDest alphaDst);
+        internal static BlendFuncSeparateiDelegate BlendFuncSeparatei;
 
         [System.Security.SuppressUnmanagedCodeSecurity ()]
         [MonoNativeFunctionWrapper]
@@ -1247,8 +1183,6 @@ namespace MonoGame.OpenGL
             ReadBuffer = LoadFunction<ReadBufferDelegate> ("glReadBuffer");
             DrawBuffer = LoadFunction<DrawBufferDelegate> ("glDrawBuffer");
 
-            RenderbufferStorage = LoadFunction<RenderbufferStorageDelegate> ("glRenderbufferStorage");
-
             // Render Target Support. These might be null if they are not supported
             // see GraphicsDevice.OpenGL.FramebufferHelper.cs for handling other extensions.
             GenRenderbuffers = LoadFunction<GenRenderbuffersDelegate> ("glGenRenderbuffers");
@@ -1259,6 +1193,7 @@ namespace MonoGame.OpenGL
             DeleteFramebuffers = LoadFunction<DeleteFramebuffersDelegate> ("glDeleteFramebuffers");
             FramebufferTexture2D = LoadFunction<FramebufferTexture2DDelegate> ("glFramebufferTexture2D");
             FramebufferRenderbuffer = LoadFunction<FramebufferRenderbufferDelegate> ("glFramebufferRenderbuffer");
+            RenderbufferStorage = LoadFunction<RenderbufferStorageDelegate> ("glRenderbufferStorage");
             RenderbufferStorageMultisample = LoadFunction<RenderbufferStorageMultisampleDelegate> ("glRenderbufferStorageMultisample");
             GenerateMipmap = LoadFunction<GenerateMipmapDelegate> ("glGenerateMipmap");
             BlitFramebuffer = LoadFunction<BlitFramebufferDelegate> ("glBlitFramebuffer");
@@ -1297,7 +1232,9 @@ namespace MonoGame.OpenGL
 
             BlendColor = LoadFunction<BlendColorDelegate> ("glBlendColor");
             BlendEquationSeparate = LoadFunction<BlendEquationSeparateDelegate> ("glBlendEquationSeparate");
+            BlendEquationSeparatei = LoadFunction<BlendEquationSeparateiDelegate>("glBlendEquationSeparatei");
             BlendFuncSeparate = LoadFunction<BlendFuncSeparateDelegate> ("glBlendFuncSeparate");
+            BlendFuncSeparatei = LoadFunction<BlendFuncSeparateiDelegate>("glBlendFuncSeparatei");
             ColorMask = LoadFunction<ColorMaskDelegate> ("glColorMask");
             DepthFunc = LoadFunction<DepthFuncDelegate> ("glDepthFunc");
             DepthMask = LoadFunction<DepthMaskDelegate> ("glDepthMask");
@@ -1383,13 +1320,13 @@ namespace MonoGame.OpenGL
 
             LogExtensions();
             // now load Extensions :)
-            if (GL.RenderbufferStorageMultisample == null)
+            if (GL.GenRenderbuffers == null && Extensions.Contains("GL_EXT_framebuffer_object"))
             {
-                if (Extensions.Contains("GL_EXT_framebuffer_object"))
-                {
-                    GL.LoadFrameBufferObjectEXTEntryPoints();
-                }
-                else if (Extensions.Contains("GL_APPLE_framebuffer_multisample"))
+                GL.LoadFrameBufferObjectEXTEntryPoints();
+            }
+            if (GL.RenderbufferStorageMultisample == null)
+            {                
+                if (Extensions.Contains("GL_APPLE_framebuffer_multisample"))
                 {
                     GL.RenderbufferStorageMultisample = LoadFunction<GL.RenderbufferStorageMultisampleDelegate>("glRenderbufferStorageMultisampleAPPLE");
                     GL.BlitFramebuffer = LoadFunction<GL.BlitFramebufferDelegate>("glResolveMultisampleFramebufferAPPLE");
@@ -1411,22 +1348,14 @@ namespace MonoGame.OpenGL
                     GL.BlitFramebuffer = LoadFunction<GL.BlitFramebufferDelegate>("glBlitFramebufferNV");
                 }
             }
-        }
-
-        internal static void LoadFrameBufferObjectARBEntryPoints()
-        {
-            GenRenderbuffers = LoadFunction<GenRenderbuffersDelegate>("glGenRenderbuffers");
-            BindRenderbuffer = LoadFunction<BindRenderbufferDelegate>("glBindRenderbuffer");
-            DeleteRenderbuffers = LoadFunction<DeleteRenderbuffersDelegate>("glDeleteRenderbuffers");
-            GenFramebuffers = LoadFunction<GenFramebuffersDelegate>("glGenFramebuffers");
-            BindFramebuffer = LoadFunction<BindFramebufferDelegate>("glBindFramebuffer");
-            DeleteFramebuffers = LoadFunction<DeleteFramebuffersDelegate>("glDeleteFramebuffers");
-            FramebufferTexture2D = LoadFunction<FramebufferTexture2DDelegate>("glFramebufferTexture2D");
-            FramebufferRenderbuffer = LoadFunction<FramebufferRenderbufferDelegate>("glFramebufferRenderbuffer");
-            RenderbufferStorageMultisample = LoadFunction<RenderbufferStorageMultisampleDelegate>("glRenderbufferStorageMultisample");
-            GenerateMipmap = LoadFunction<GenerateMipmapDelegate>("glGenerateMipmap");
-            BlitFramebuffer = LoadFunction<BlitFramebufferDelegate>("glBlitFramebuffer");
-            CheckFramebufferStatus = LoadFunction<CheckFramebufferStatusDelegate>("glCheckFramebufferStatus");
+            if (GL.BlendFuncSeparatei == null && Extensions.Contains("GL_ARB_draw_buffers_blend"))
+            {
+                GL.BlendFuncSeparatei = LoadFunction<GL.BlendFuncSeparateiDelegate>("BlendFuncSeparateiARB");
+            }
+            if (GL.BlendEquationSeparatei == null && Extensions.Contains("GL_ARB_draw_buffers_blend"))
+            {
+                GL.BlendEquationSeparatei = LoadFunction<GL.BlendEquationSeparateiDelegate>("BlendEquationSeparateiARB");
+            }
         }
 
         internal static void LoadFrameBufferObjectEXTEntryPoints()
@@ -1439,6 +1368,7 @@ namespace MonoGame.OpenGL
             DeleteFramebuffers = LoadFunction<DeleteFramebuffersDelegate>("glDeleteFramebuffersEXT");
             FramebufferTexture2D = LoadFunction<FramebufferTexture2DDelegate>("glFramebufferTexture2DEXT");
             FramebufferRenderbuffer = LoadFunction<FramebufferRenderbufferDelegate>("glFramebufferRenderbufferEXT");
+            RenderbufferStorage = LoadFunction<RenderbufferStorageDelegate>("glRenderbufferStorageEXT");
             RenderbufferStorageMultisample = LoadFunction<RenderbufferStorageMultisampleDelegate>("glRenderbufferStorageMultisampleEXT");
             GenerateMipmap = LoadFunction<GenerateMipmapDelegate>("glGenerateMipmapEXT");
             BlitFramebuffer = LoadFunction<BlitFramebufferDelegate>("glBlitFramebufferEXT");
