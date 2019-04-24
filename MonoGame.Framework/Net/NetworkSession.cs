@@ -60,6 +60,8 @@ namespace Microsoft.Xna.Framework.Net
 
         internal NetworkSession(NetPeer peer, bool isHost, byte machineId, NetworkSessionType type, NetworkSessionProperties properties, int maxGamers, int privateGamerSlots, IEnumerable<SignedInGamer> localGamers, string hostDisplayName, string hostGamertag)
         {
+            // whereabouts does it try to talk to the master server???
+            Debugger.Break();
             if (peer.Configuration.AutoFlushSendQueue) throw new InvalidOperationException("Peer must not flush send queue automatically");
             if (isHost && machineId != 0) throw new InvalidOperationException("Host must have machine id 0");
             if (!isHost && machineId == 0) throw new InvalidOperationException("Client cannot have machine id 0");

@@ -19,6 +19,7 @@ namespace Microsoft.Xna.Framework.Net
 
         private static NetworkSession InternalCreate(NetworkSessionType sessionType, IEnumerable<SignedInGamer> localGamers, int maxGamers, int privateGamerSlots, NetworkSessionProperties sessionProperties)
         {
+            Debugger.Break();
             var config = new NetPeerConfiguration(NetworkSettings.GameAppId)
             {
                 Port = NetworkSettings.Port,

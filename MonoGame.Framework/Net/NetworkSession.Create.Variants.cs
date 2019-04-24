@@ -79,14 +79,18 @@ namespace Microsoft.Xna.Framework.Net
 
             var localGamers = GetLocalGamers(maxLocalGamers);
 
-            try { return BeginCreate(sessionType, localGamers, maxGamers, privateGamerSlots, sessionProperties, callback, asyncState); }
-            catch { throw; }
+            //try {
+                return BeginCreate(sessionType, localGamers, maxGamers, privateGamerSlots, sessionProperties, callback, asyncState);
+            //}
+            //catch { throw; }
         }
 
         public static IAsyncResult BeginCreate(NetworkSessionType sessionType, int maxLocalGamers, int maxGamers, AsyncCallback callback, Object asyncState)
         {
-            try { return BeginCreate(sessionType, maxLocalGamers, maxGamers, 0, null, callback, asyncState); }
-            catch { throw; }
+            //try {
+                return BeginCreate(sessionType, maxLocalGamers, maxGamers, 0, null, callback, asyncState);
+            //}
+            ///catch { throw; }
         }
 
         public static NetworkSession EndCreate(IAsyncResult result)
@@ -96,10 +100,10 @@ namespace Microsoft.Xna.Framework.Net
             {
                 Session = AsyncCreateCaller.EndInvoke(result);
             }
-            catch
-            {
-                throw;
-            }
+            //catch
+            //{
+            //    throw;
+            //}
             finally
             {
                 AsyncCreateCaller = null;
@@ -245,8 +249,11 @@ namespace Microsoft.Xna.Framework.Net
 
         public static NetworkSession Create(NetworkSessionType sessionType, int maxLocalGamers, int maxGamers)
         {
-            try { return EndCreate(BeginCreate(sessionType, maxLocalGamers, maxGamers, null, null)); }
-            catch { throw; }
+            //try
+            //{
+                return EndCreate(BeginCreate(sessionType, maxLocalGamers, maxGamers, null, null));
+            //}
+            //catch { throw; }
         }
 
         public static NetworkSession Create(NetworkSessionType sessionType, int maxLocalGamers, int maxGamers, int privateGamerSlots, NetworkSessionProperties sessionProperties)
