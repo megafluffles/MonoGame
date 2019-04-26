@@ -19,7 +19,6 @@ namespace Microsoft.Xna.Framework.Net
 
         private static NetworkSession InternalCreate(NetworkSessionType sessionType, IEnumerable<SignedInGamer> localGamers, int maxGamers, int privateGamerSlots, NetworkSessionProperties sessionProperties)
         {
-            Debugger.Break();
             var config = new NetPeerConfiguration(NetworkSettings.GameAppId)
             {
                 Port = NetworkSettings.Port,
@@ -50,7 +49,8 @@ namespace Microsoft.Xna.Framework.Net
             Debug.WriteLine("Server peer started.");
 
             var firstGamer = localGamers.First();
-            return new NetworkSession(serverPeer,
+
+            var result = new NetworkSession(serverPeer,
                 true,
                 0,
                 sessionType,
@@ -60,6 +60,14 @@ namespace Microsoft.Xna.Framework.Net
                 localGamers,
                 firstGamer.DisplayName,
                 firstGamer.Gamertag);
+
+            // Update public gamer collections
+            result.AllGamers.CopyFromReference();
+            result.PreviousGamers.CopyFromReference();
+            result.RemoteGamers.CopyFromReference();
+            result.LocalGamers.CopyFromReference();
+
+            return result;
         }
 
         private static IPEndPoint GetInternalIp(NetPeer peer)
