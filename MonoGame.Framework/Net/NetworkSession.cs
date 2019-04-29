@@ -854,18 +854,20 @@ namespace Microsoft.Xna.Framework.Net
                 return;
             }
 
-            TriggerEvents(true);
-
             // Update public gamer collections
             AllGamers.CopyFromReference();
             PreviousGamers.CopyFromReference();
             RemoteGamers.CopyFromReference();
             LocalGamers.CopyFromReference();
 
+            if (AllGamers.Count == 3) Debugger.Break();
+
             foreach (var machine in allMachines)
             {
                 machine.Gamers.CopyFromReference();
             }
+
+            TriggerEvents(true);
         }
 
         internal void End(NetworkSessionEndReason reason)

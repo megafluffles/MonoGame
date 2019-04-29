@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 using Microsoft.Xna.Framework.GamerServices;
+using System.Diagnostics;
 
 namespace Microsoft.Xna.Framework.Net
 {
@@ -35,6 +36,8 @@ namespace Microsoft.Xna.Framework.Net
             {
                 return;
             }
+
+            if (reference.Count == 3) Debugger.Break();
 
             contents.Clear();
             foreach (var item in reference)

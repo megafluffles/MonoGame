@@ -50,7 +50,7 @@ namespace Microsoft.Xna.Framework.Net
 
             var firstGamer = localGamers.First();
 
-            var result = new NetworkSession(serverPeer,
+            return new NetworkSession(serverPeer,
                 true,
                 0,
                 sessionType,
@@ -60,14 +60,6 @@ namespace Microsoft.Xna.Framework.Net
                 localGamers,
                 firstGamer.DisplayName,
                 firstGamer.Gamertag);
-
-            // Update public gamer collections
-            result.AllGamers.CopyFromReference();
-            result.PreviousGamers.CopyFromReference();
-            result.RemoteGamers.CopyFromReference();
-            result.LocalGamers.CopyFromReference();
-
-            return result;
         }
 
         private static IPEndPoint GetInternalIp(NetPeer peer)
@@ -180,7 +172,7 @@ namespace Microsoft.Xna.Framework.Net
             }
             clientPeer.Configuration.AutoFlushSendQueue = false;
 
-            var result = new NetworkSession(clientPeer,
+            return new NetworkSession(clientPeer,
                 false,
                 machineId,
                 availableSession.SessionType,
@@ -190,14 +182,6 @@ namespace Microsoft.Xna.Framework.Net
                 availableSession.LocalGamers,
                 availableSession.HostGamertag, // TODO: Store real display name here instead of gamertag
                 availableSession.HostGamertag);
-
-            // Update public gamer collections
-            result.AllGamers.CopyFromReference();
-            result.PreviousGamers.CopyFromReference();
-            result.RemoteGamers.CopyFromReference();
-            result.LocalGamers.CopyFromReference();
-
-            return result;
         }
 
         private static void AddAvailableNetworkSession(Guid hostGuid, NetworkSessionPublicInfo publicInfo, IEnumerable<SignedInGamer> localGamers, NetworkSessionType searchType, NetworkSessionProperties searchProperties, IList<AvailableNetworkSession> availableSessions, object tag = null)
