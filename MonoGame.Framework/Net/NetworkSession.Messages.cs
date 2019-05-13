@@ -105,7 +105,7 @@ namespace Microsoft.Xna.Framework.Net
             }
 
             // i have commented out block below to (hopefully) do things purely P2P rather than relay through host....
-            Debugger.Break();
+            //Debugger.Break();
             //if (!isHost)
             //{
             //    // Host relays all client messages
