@@ -854,13 +854,15 @@ namespace Microsoft.Xna.Framework.Net
                 return;
             }
 
-            TriggerEvents(true);
-
             // Update public gamer collections
             AllGamers.CopyFromReference();
             PreviousGamers.CopyFromReference();
             RemoteGamers.CopyFromReference();
             LocalGamers.CopyFromReference();
+
+            // JB - moved this call to AFTER the gamer collection updates
+            // so that event handlers have up to date collection info.
+            TriggerEvents(true);
 
             foreach (var machine in allMachines)
             {

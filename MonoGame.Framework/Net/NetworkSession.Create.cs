@@ -25,6 +25,9 @@ namespace Microsoft.Xna.Framework.Net
                 AcceptIncomingConnections = true,
                 AutoFlushSendQueue = false,
             };
+#if DEBUG
+            config.ConnectionTimeout = 120f;
+#endif
             config.EnableMessageType(NetIncomingMessageType.VerboseDebugMessage);
             config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
             config.EnableMessageType(NetIncomingMessageType.UnconnectedData);
@@ -85,6 +88,9 @@ namespace Microsoft.Xna.Framework.Net
                 AcceptIncomingConnections = false,
                 AutoFlushSendQueue = true,
             };
+#if DEBUG
+            config.ConnectionTimeout = 120f;
+#endif
             config.EnableMessageType(NetIncomingMessageType.VerboseDebugMessage);
             config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
             config.EnableMessageType(NetIncomingMessageType.UnconnectedData);
@@ -229,6 +235,9 @@ namespace Microsoft.Xna.Framework.Net
                 Port = 0, // Use any port
                 AcceptIncomingConnections = false,
             };
+#if DEBUG
+            config.ConnectionTimeout = 120f;
+#endif
             config.EnableMessageType(NetIncomingMessageType.VerboseDebugMessage);
             config.EnableMessageType(NetIncomingMessageType.UnconnectedData);
             config.EnableMessageType(NetIncomingMessageType.DiscoveryResponse);
