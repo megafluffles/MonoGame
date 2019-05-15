@@ -75,5 +75,10 @@ namespace Microsoft.Xna.Framework.Net
                 throw new InvalidOperationException("Gamer is not local");
             }
         }
+
+        public override string ToString()
+        {
+            return $"id:{Id},local:{IsLocal},gamerTag:{base.ToString()}";
+        }    
     }
 }

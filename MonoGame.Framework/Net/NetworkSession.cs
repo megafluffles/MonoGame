@@ -868,6 +868,8 @@ namespace Microsoft.Xna.Framework.Net
             {
                 machine.Gamers.CopyFromReference();
             }
+
+            TriggerEvents(true);
         }
 
         internal void End(NetworkSessionEndReason reason)
