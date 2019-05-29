@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Xna.Framework.GamerServices;
 
 namespace Microsoft.Xna.Framework.Net
@@ -79,18 +80,18 @@ namespace Microsoft.Xna.Framework.Net
 
             var localGamers = GetLocalGamers(maxLocalGamers);
 
-            //try {
+            ////try {
                 return BeginCreate(sessionType, localGamers, maxGamers, privateGamerSlots, sessionProperties, callback, asyncState);
             //}
-            //catch { throw; }
+            ////catch { throw; }
         }
 
         public static IAsyncResult BeginCreate(NetworkSessionType sessionType, int maxLocalGamers, int maxGamers, AsyncCallback callback, Object asyncState)
         {
-            //try {
+            ////try {
                 return BeginCreate(sessionType, maxLocalGamers, maxGamers, 0, null, callback, asyncState);
             //}
-            ///catch { throw; }
+            /////catch { throw; }
         }
 
         public static NetworkSession EndCreate(IAsyncResult result)
@@ -160,8 +161,9 @@ namespace Microsoft.Xna.Framework.Net
 
             var localGamers = GetLocalGamers(maxLocalGamers);
 
-            try { return BeginFind(sessionType, localGamers, searchProperties, callback, asyncState); }
-            catch { throw; }
+            //try {
+                return BeginFind(sessionType, localGamers, searchProperties, callback, asyncState); //}
+            //catch { throw; }
         }
 
         public static AvailableNetworkSessionCollection EndFind(IAsyncResult result)
@@ -197,10 +199,18 @@ namespace Microsoft.Xna.Framework.Net
             IAsyncResult result = null;
             try
             {
+#if DEBUG
+                // I think begininvoke below fails when player 3 joins an in progress game...
+                if (availableSession.CurrentGamerCount >= 2) Debugger.Break();
+#endif
                 result = AsyncJoinCaller.BeginInvoke(availableSession, callback, asyncState);
             }
             catch
             {
+#if DEBUG
+                // i think this is happening when player 3 joins an in-progress game...
+                Debugger.Break();
+#endif
                 AsyncJoinCaller = null;
                 throw;
             }
@@ -214,10 +224,10 @@ namespace Microsoft.Xna.Framework.Net
             {
                 Session = AsyncJoinCaller.EndInvoke(result);
             }
-            catch
-            {
-                throw;
-            }
+            //catch
+            //{
+            //    throw;
+            //}
             finally
             {
                 AsyncJoinCaller = null;
@@ -243,8 +253,9 @@ namespace Microsoft.Xna.Framework.Net
         // Synchronous session creation
         public static NetworkSession Create(NetworkSessionType sessionType, IEnumerable<SignedInGamer> localGamers, int maxGamers, int privateGamerSlots, NetworkSessionProperties sessionProperties)
         {
-            try { return EndCreate(BeginCreate(sessionType, localGamers, maxGamers, privateGamerSlots, sessionProperties, null, null)); }
-            catch { throw; }
+            //try {
+                return EndCreate(BeginCreate(sessionType, localGamers, maxGamers, privateGamerSlots, sessionProperties, null, null)); //}
+            //catch { throw; }
         }
 
         public static NetworkSession Create(NetworkSessionType sessionType, int maxLocalGamers, int maxGamers)
@@ -253,43 +264,52 @@ namespace Microsoft.Xna.Framework.Net
             //{
                 return EndCreate(BeginCreate(sessionType, maxLocalGamers, maxGamers, null, null));
             //}
-            //catch { throw; }
+            ////catch { throw; }
         }
 
         public static NetworkSession Create(NetworkSessionType sessionType, int maxLocalGamers, int maxGamers, int privateGamerSlots, NetworkSessionProperties sessionProperties)
         {
-            try { return EndCreate(BeginCreate(sessionType, maxLocalGamers, maxGamers, privateGamerSlots, sessionProperties, null, null)); }
-            catch { throw; }
+            //try {
+                return EndCreate(BeginCreate(sessionType, maxLocalGamers, maxGamers, privateGamerSlots, sessionProperties, null, null)); //}
+            //catch { throw; }
         }
 
         public static AvailableNetworkSessionCollection Find(NetworkSessionType sessionType, IEnumerable<SignedInGamer> localGamers, NetworkSessionProperties searchProperties)
         {
-            try { return EndFind(BeginFind(sessionType, localGamers, searchProperties, null, null)); }
-            catch { throw; }
+            //try {
+                return EndFind(BeginFind(sessionType, localGamers, searchProperties, null, null)); //}
+            //catch { throw; }
         }
 
         public static AvailableNetworkSessionCollection Find(NetworkSessionType sessionType, int maxLocalGamers, NetworkSessionProperties searchProperties)
         {
-            try { return EndFind(BeginFind(sessionType, maxLocalGamers, searchProperties, null, null)); }
-            catch { throw; }
+            //try {
+                return EndFind(BeginFind(sessionType, maxLocalGamers, searchProperties, null, null)); //}
+            //catch { throw; }
         }
 
         public static NetworkSession Join(AvailableNetworkSession availableSession)
         {
-            try { return EndJoin(BeginJoin(availableSession, null, null)); }
-            catch { throw; }
+#if DEBUG
+            if (availableSession)
+#endif
+            //try {
+                return EndJoin(BeginJoin(availableSession, null, null)); //}
+            //catch { throw; }
         }
 
         public static NetworkSession JoinInvited(IEnumerable<SignedInGamer> localGamers)
         {
-            try { return EndJoinInvited(BeginJoinInvited(localGamers, null, null)); }
-            catch { throw; }
+            //try {
+                return EndJoinInvited(BeginJoinInvited(localGamers, null, null)); //}
+            //catch { throw; }
         }
 
         public static NetworkSession JoinInvited(int maxLocalGamers)
         {
-            try { return EndJoinInvited(BeginJoinInvited(maxLocalGamers, null, null)); }
-            catch { throw; }
+            //try {
+                return EndJoinInvited(BeginJoinInvited(maxLocalGamers, null, null)); //}
+            //catch { throw; }
         }
     }
 }
