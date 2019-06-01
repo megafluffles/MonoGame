@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 
 namespace Lidgren.Network
@@ -91,8 +92,7 @@ namespace Lidgren.Network
 				return; // don't alert hosts about nat punch successes; only clients
 			}
 			string token = tmp.ReadString();
-
-			LogDebug("NAT punch received from " + senderEndPoint + " we're client, so we've succeeded - token is " + token);
+            LogDebug("NAT punch received from " + senderEndPoint + " we're client, so we've succeeded - token is " + token);
 
 			//
 			// Release punch success to client; enabling him to Connect() to msg.SenderIPEndPoint if token is ok

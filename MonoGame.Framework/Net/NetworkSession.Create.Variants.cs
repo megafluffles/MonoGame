@@ -290,9 +290,6 @@ namespace Microsoft.Xna.Framework.Net
 
         public static NetworkSession Join(AvailableNetworkSession availableSession)
         {
-#if DEBUG
-            if (availableSession)
-#endif
             //try {
                 return EndJoin(BeginJoin(availableSession, null, null)); //}
             //catch { throw; }

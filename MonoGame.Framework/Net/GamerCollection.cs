@@ -37,8 +37,6 @@ namespace Microsoft.Xna.Framework.Net
                 return;
             }
 
-            if (reference.Count == 3) Debugger.Break();
-
             contents.Clear();
             foreach (var item in reference)
             {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Xna.Framework.GamerServices;
 using Lidgren.Network;
+using System.Linq;
 
 namespace Microsoft.Xna.Framework.Net
 {
@@ -883,6 +884,9 @@ namespace Microsoft.Xna.Framework.Net
             // might want to do some clean up on SessionEnded. Furthermore, the user might call Dispose() in the
             // callback so the early return above is important. Finally, make sure not to trigger any new events that
             // might arise.
+#if DEBUG
+            Debugger.Break();
+#endif
             state = NetworkSessionState.Ended;
 
             if (isHost)

@@ -43,9 +43,6 @@ namespace Microsoft.Xna.Framework.Net
 
         public NetworkSessionJoinException(string message, NetworkSessionJoinError joinError) : base(message)
         {
-#if DEBUG
-            Debugger.Break();
-#endif
             this.JoinError = joinError;
         }
 

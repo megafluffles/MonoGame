@@ -78,7 +78,7 @@ namespace Microsoft.Xna.Framework.Net
 
         public override string ToString()
         {
-            return $"id:{Id},local:{IsLocal},gamerTag:{base.ToString()}";
+            return $"id:{Id},local:{IsLocal},host:{IsHost},gamerTag:{base.ToString()}";
         }    
     }
 }

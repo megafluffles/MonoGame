@@ -15,7 +15,8 @@ namespace Microsoft.Xna.Framework.Net
     {
         private static readonly TimeSpan NoMessageSleep = TimeSpan.FromSeconds(0.1);
         private static readonly TimeSpan DiscoveryTimeOut = TimeSpan.FromSeconds(4.0);
-        private static readonly TimeSpan JoinTimeOut = TimeSpan.FromSeconds(2.0);
+        private static readonly TimeSpan JoinTimeOut
+            = TimeSpan.FromSeconds(15.0);
 
         private static NetworkSession InternalCreate(NetworkSessionType sessionType, IEnumerable<SignedInGamer> localGamers, int maxGamers, int privateGamerSlots, NetworkSessionProperties sessionProperties)
         {
