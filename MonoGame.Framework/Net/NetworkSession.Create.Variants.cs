@@ -199,18 +199,10 @@ namespace Microsoft.Xna.Framework.Net
             IAsyncResult result = null;
             try
             {
-#if DEBUG
-                // I think begininvoke below fails when player 3 joins an in progress game...
-                if (availableSession.CurrentGamerCount >= 2) Debugger.Break();
-#endif
                 result = AsyncJoinCaller.BeginInvoke(availableSession, callback, asyncState);
             }
             catch
             {
-#if DEBUG
-                // i think this is happening when player 3 joins an in-progress game...
-                Debugger.Break();
-#endif
                 AsyncJoinCaller = null;
                 throw;
             }

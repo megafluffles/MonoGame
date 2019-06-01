@@ -1,0 +1,43 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        { // MonoGame WindowsGL
+            "label": "MonoGame WindowsGL",
+            "type": "shell",
+            "command": "msbuild",
+            "args": [
+                "MonoGame.Framework.WindowsGL.sln",
+                "/property:GenerateFullPaths=true",
+                "/p:Configuration=Debug"            
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        { // MonoGame Windows
+            "label": "MonoGame Windows",
+            "type": "shell",
+            "command": "msbuild",
+            "args": [
+                "MonoGame.Framework.Windows.sln",
+                "/property:GenerateFullPaths=true",
+                "/p:Configuration=Debug"            
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}
