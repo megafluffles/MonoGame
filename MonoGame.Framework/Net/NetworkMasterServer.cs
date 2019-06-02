@@ -66,7 +66,7 @@ namespace Microsoft.Xna.Framework.Net
                 throw new NetworkException("Could not start server peer", e);
             }
 
-            Console.WriteLine("Master server with game app id " + GameAppId + " started on port " + config.Port + ".");
+            Console.WriteLine("Master server with game app id " + GameAppId + " started on " + config.LocalAddress + ":" + config.Port + ".");
         }
 
         private List<Guid> hostsToRemove = new List<Guid>();

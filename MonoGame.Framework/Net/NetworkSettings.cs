@@ -45,7 +45,12 @@ namespace Microsoft.Xna.Framework.Net
         }
 
         public static int Port = 14242;
-        public static string MasterServerAddress = "127.0.0.1";
+        //public static string MasterServerAddress = "127.0.0.1";
+
+        // run master server on orange pi, set ip address below accordingly.
+        // see if we can get android to connect using it. (getting access denied currently).
+        fasdfasdfas;
+        public static string MasterServerAddress = "192.168.1.107";
         public static int MasterServerPort = 14243;
         public static TimeSpan MasterServerRegistrationInterval = TimeSpan.FromSeconds(60.0);
         public static string MasterServerPayload = string.Empty;
