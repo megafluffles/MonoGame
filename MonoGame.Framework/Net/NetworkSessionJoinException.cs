@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-#if DEBUG
 using System.Runtime.Serialization;
-#endif
 
 namespace Microsoft.Xna.Framework.Net
 {
