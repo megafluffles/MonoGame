@@ -119,6 +119,7 @@ namespace Microsoft.Xna.Framework.Net
                                 // todo: using old code, start 3 player game,
                                 // let one client exit. does the whole quit here? it should be
                                 // able to continue????
+                                fdasfasdfasd;
                                 string reasonString;
                                 NetworkSessionEndReason reason;
                                 if (msg.ReadString(out reasonString) && Enum.TryParse(reasonString, out reason))
