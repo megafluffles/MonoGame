@@ -109,10 +109,16 @@ namespace Microsoft.Xna.Framework.Net
                             
                             if (isHost)
                             {
+                                // since we are the host, tell all our clients that a machine/gamer(s)
+                                // has been disconnected from the game...
                                 SendMachineDisconnectedMessage(machine);
                             }
                             else
                             {
+                                // since we are not host.... end the session??? really?
+                                // todo: using old code, start 3 player game,
+                                // let one client exit. does the whole quit here? it should be
+                                // able to continue????
                                 string reasonString;
                                 NetworkSessionEndReason reason;
                                 if (msg.ReadString(out reasonString) && Enum.TryParse(reasonString, out reason))

@@ -595,6 +595,8 @@ namespace Microsoft.Xna.Framework.Net
 
         private void RemoveMachine(NetworkMachine machine)
         {
+            bool wasHost = machine.isHost;
+
             for (int i = machine.gamers.Count - 1; i >= 0; i--)
             {
                 RemoveGamer(machine.gamers[i]);
@@ -603,6 +605,11 @@ namespace Microsoft.Xna.Framework.Net
             allMachines.Remove(machine);
             machineFromId.Remove(machine.id);
             connectionFromMachine.Remove(machine);
+
+            if (wasHost)
+            {
+                NetworkMachine.SetNewHost(this);
+            }
         }
 
         private void RemoveAllMachines()
@@ -677,7 +684,6 @@ namespace Microsoft.Xna.Framework.Net
             {
                 throw new InvalidOperationException("Only gamers in the session can be removed");
             }
-            bool wasHost = gamer.IsHost;
             gamer.state = NetworkGamerState.Removed;
 
             gamer.machine.gamers.Remove(gamer);
@@ -700,7 +706,7 @@ namespace Microsoft.Xna.Framework.Net
             AddPreviousGamer(gamer);
             InvokeGamerLeftEvent(new GamerLeftEventArgs(gamer));
 
-            if (wasHost || localGamers.Count == 0)
+            if (localGamers.Count == 0)
             {
                 End(NetworkSessionEndReason.ClientSignedOut);
             }

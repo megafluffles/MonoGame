@@ -50,9 +50,9 @@ namespace Microsoft.Xna.Framework.Net
                 AcceptIncomingConnections = false,
                 AutoFlushSendQueue = true,
             };
-#if DEBUG
-            config.ConnectionTimeout = 120f;
-#endif
+//#if DEBUG
+//            config.ConnectionTimeout = 120f;
+//#endif
             config.EnableMessageType(NetIncomingMessageType.VerboseDebugMessage);
             config.EnableMessageType(NetIncomingMessageType.UnconnectedData);
 

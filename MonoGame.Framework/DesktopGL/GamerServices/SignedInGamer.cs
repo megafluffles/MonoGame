@@ -312,6 +312,11 @@ namespace Microsoft.Xna.Framework.GamerServices
 		
 		protected virtual void OnSignedOut(SignedOutEventArgs e)
 		{
+#if DEBUG
+            // Todo : how do we know if we are the host?
+            System.Diagnostics.Debugger.Break();
+            //if (IsHost) throw new NotImplementedException("JB TODO");
+#endif
             EventHelpers.Raise(this, SignedOut, e);
 		}
 

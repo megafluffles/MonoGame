@@ -54,7 +54,13 @@ namespace Microsoft.Xna.Framework.Net
         public bool HasLeftSession { get { return state == NetworkGamerState.Removed; } }
 
         public bool IsGuest { get { return machine.gamers[0] != this; } }
-        public bool IsHost { get { return machine.isHost && id == 0; } }
+        public bool IsHost
+        {
+            get
+            {
+                return machine.isHost && id == 0;
+            }
+        }
         public bool IsLocal { get { return machine.isLocal; } }
         public TimeSpan RoundtripTime { get { return machine.roundtripTime; } }
         public NetworkSession Session { get { return session; } }
