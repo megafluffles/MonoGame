@@ -19,7 +19,7 @@ namespace Microsoft.Xna.Framework.Net
         internal readonly PacketPool packetPool = new PacketPool();
 
         private readonly NetPeer peer;
-        private readonly bool isHost;
+        private bool isHost;
         private readonly byte machineId;
         private readonly NetworkSessionType type;
         private readonly Guid guid;
@@ -291,7 +291,7 @@ namespace Microsoft.Xna.Framework.Net
             get
             {
                 if (IsDisposed) throw new ObjectDisposedException("NetworkSession");
-                return gamerFromId[0];
+                return allGamers.First(g => g.IsHost);
             }
         }
 
@@ -447,6 +447,11 @@ namespace Microsoft.Xna.Framework.Net
             eventQueue.Add(args);
         }
 
+        internal void InvokeHostChangedEvent(HostChangedEventArgs args)
+        {
+            eventQueue.Add(args);
+        }
+
         internal void InvokeGamerLeftEvent(GamerLeftEventArgs args)
         {
             eventQueue.Add(args);
@@ -595,8 +600,6 @@ namespace Microsoft.Xna.Framework.Net
 
         private void RemoveMachine(NetworkMachine machine)
         {
-            bool wasHost = machine.isHost;
-
             for (int i = machine.gamers.Count - 1; i >= 0; i--)
             {
                 RemoveGamer(machine.gamers[i]);
@@ -605,11 +608,6 @@ namespace Microsoft.Xna.Framework.Net
             allMachines.Remove(machine);
             machineFromId.Remove(machine.id);
             connectionFromMachine.Remove(machine);
-
-            if (wasHost)
-            {
-                NetworkMachine.SetNewHost(this);
-            }
         }
 
         private void RemoveAllMachines()
@@ -710,6 +708,16 @@ namespace Microsoft.Xna.Framework.Net
             {
                 End(NetworkSessionEndReason.ClientSignedOut);
             }
+        }
+
+        private void ChangeHost(NetworkGamer oldHostGamer, NetworkGamer newHostGamer)
+        {
+            if (oldHostGamer.state != NetworkGamerState.Added)
+            {
+                throw new InvalidOperationException("Only gamers in the session can be removed");
+            }
+
+            InvokeHostChangedEvent(new HostChangedEventArgs(oldHostGamer, newHostGamer));
         }
 
         private void AddPreviousGamer(NetworkGamer gamer)
@@ -837,6 +845,10 @@ namespace Microsoft.Xna.Framework.Net
                     {
                         SessionEnded.Invoke(this, arg as NetworkSessionEndedEventArgs);
                     }
+                }
+                else if (arg is HostChangedEventArgs)
+                {
+                    HostChanged.Invoke(this, arg as HostChangedEventArgs);
                 }
             }
 

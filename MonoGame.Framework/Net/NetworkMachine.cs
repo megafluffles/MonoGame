@@ -25,26 +25,21 @@ namespace Microsoft.Xna.Framework.Net
 
         public GamerCollection<NetworkGamer> Gamers { get; private set; }
 
-        internal static NetworkMachine SetNewHost(NetworkSession session)
+        internal static bool AmNewHost(NetworkSession session, NetworkMachine networkHostMachine)
         {
             NetworkGamer newHost = null;
 
             // simple approach, just choose the gamer with the lowest id.
             foreach (NetworkGamer gamer in session.AllGamers)
             {
-                if (newHost == null || newHost.Id < gamer.Id)
+                if ((newHost == null || newHost.Id < gamer.Id) &&
+                    !(networkHostMachine.Gamers.Contains(gamer)))
                 {
                     newHost = gamer;
                 }
             }
 
-            // Todo assign ishost = true to this gamer/machine both?
-            newHost.machine.isHost = true;
-
-            // TODO. if we are the new host, register with master server (somehow!?!?!?)
-            throw new NotImplementedException();
-
-            return newHost.machine;
+            return newHost.IsLocal;
         }
 
         public void RemoveFromSession()

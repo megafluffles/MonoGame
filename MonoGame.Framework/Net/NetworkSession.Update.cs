@@ -103,34 +103,43 @@ namespace Microsoft.Xna.Framework.Net
                                 throw new InvalidOperationException();
                             }
 
-                            var machine = (NetworkMachine)msg.SenderConnection.Tag;
+                            var machineToRemove = (NetworkMachine)msg.SenderConnection.Tag;
 
-                            RemoveMachine(machine);
+                            bool removingHost = machineToRemove.isHost;
+
+                            RemoveMachine(machineToRemove);
+
+                            if (removingHost)
+                            {
+                                // am I the new host
+                                isHost = NetworkMachine.AmNewHost(this, machineToRemove);
+                            }
+
+                            if (removingHost && isHost)
+                            {
+                                // tell peers I am the new host
+                                SendHostChanged(machineToRemove.id, localMachine.id);
+                            }
                             
                             if (isHost)
                             {
                                 // since we are the host, tell all our clients that a machine/gamer(s)
                                 // has been disconnected from the game...
-                                SendMachineDisconnectedMessage(machine);
+                                SendMachineDisconnectedMessage(machineToRemove);
                             }
-                            else
-                            {
-                                // since we are not host.... end the session??? really?
-                                // todo: using old code, start 3 player game,
-                                // let one client exit. does the whole quit here? it should be
-                                // able to continue????
-                                fdasfasdfasd;
-                                string reasonString;
-                                NetworkSessionEndReason reason;
-                                if (msg.ReadString(out reasonString) && Enum.TryParse(reasonString, out reason))
-                                {
-                                    End(reason);
-                                }
-                                else
-                                {
-                                    End(NetworkSessionEndReason.Disconnected);
-                                }
-                            }
+                            //else
+                            //{
+                            //    string reasonString;
+                            //    NetworkSessionEndReason reason;
+                            //    if (msg.ReadString(out reasonString) && Enum.TryParse(reasonString, out reason))
+                            //    {
+                            //        End(reason);
+                            //    }
+                            //    else
+                            //    {
+                            //        End(NetworkSessionEndReason.Disconnected);
+                            //    }
+                            //}
                         }
                     }
                 }

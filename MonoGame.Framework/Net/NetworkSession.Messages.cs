@@ -54,6 +54,7 @@ namespace Microsoft.Xna.Framework.Net
             StartGame = 9,
             EndGame = 10,
             User = 11,
+            HostChanged = 12,
         }
 
         private const int MessageTypeCount = 12;
@@ -602,39 +603,93 @@ namespace Microsoft.Xna.Framework.Net
             return true;
         }
 
-        private void SendGamerLeft(LocalNetworkGamer localGamer)
+        private void SendGamerLeft(LocalNetworkGamer leftGamer)
         {
             var msg = CreateMessageWithHeader(MessageType.GamerLeft, null);
-            msg.Write(localGamer.id);
+            msg.Write(leftGamer.id);
             SendMessage(msg, NetDeliveryMethod.ReliableOrdered);
         }
 
         private bool ReceiveGamerLeft(NetBuffer msg, NetworkMachine originMachine)
         {
-            byte id;
+            byte leftGamerId;
             try
             {
-                id = msg.ReadByte();
+                leftGamerId = msg.ReadByte();
             }
             catch
             {
                 return false;
             }
-            if (id == 255)
+            if (leftGamerId == 255)
             {
                 return false;
             }
-            if (!gamerFromId.ContainsKey(id))
+            if (!gamerFromId.ContainsKey(leftGamerId))
             {
                 return false;
             }
-            var gamer = gamerFromId[id];
-            if (gamer.machine != originMachine)
+            var leftGamer = gamerFromId[leftGamerId];
+            // only continue if the left gamer's machine is the same as the machine that sent this message
+            if (leftGamer.machine != originMachine)
             {
                 return false;
             }
 
-            RemoveGamer(gamer);
+            RemoveGamer(leftGamer);
+            return true;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="oldGamerId">The ID of the gamer that was the host</param>
+        /// <param name="newGamerId">The ID of the gamer that will become host</param>
+        internal void SendHostChanged(byte oldGamerId, byte newGamerId)
+        {
+            var msg = CreateMessageWithHeader(MessageType.HostChanged, null);
+            msg.Write(oldGamerId);
+            msg.Write(newGamerId);
+            SendMessage(msg, NetDeliveryMethod.ReliableOrdered);
+        }
+
+        private bool ReceiveHostChanged(NetBuffer msg, NetworkMachine originMachine)
+        {
+#if DEBUG
+            System.Diagnostics.Debugger.Break();
+#endif
+            byte oldHostGamerId;
+            byte newHostGamerId;
+            try
+            {
+                oldHostGamerId = msg.ReadByte();
+                newHostGamerId = msg.ReadByte();
+            }
+            catch
+            {
+                return false;
+            }
+            if (oldHostGamerId == 255)
+            {
+                return false;
+            }
+            if (newHostGamerId == 255)
+            {
+                return false;
+            }
+            if (!gamerFromId.ContainsKey(oldHostGamerId))
+            {
+                return false;
+            }
+            if (!gamerFromId.ContainsKey(newHostGamerId))
+            {
+                return false;
+            }
+            var oldHostGamer = gamerFromId[oldHostGamerId];
+            var newHostGamer = gamerFromId[newHostGamerId];
+
+            ChangeHost(oldHostGamer, newHostGamer);
+
             return true;
         }
 

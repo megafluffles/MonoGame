@@ -58,6 +58,8 @@ namespace Microsoft.Xna.Framework.Net
         {
             get
             {
+                fdsafasdfdsa;
+                // todo : when new host is assigned, they need to become gamer id zero.
                 return machine.isHost && id == 0;
             }
         }
