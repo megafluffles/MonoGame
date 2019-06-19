@@ -712,11 +712,19 @@ namespace Microsoft.Xna.Framework.Net
 
         private void ChangeHost(NetworkGamer oldHostGamer, NetworkGamer newHostGamer)
         {
+            // TODO: Host ID is ALWAYS zero. If old host leavees, new host changes to zero.
+            // So, update our gamer info to replace the old host zero with the new host zero.
+
+            // Q: On a peer that is NOT the new host, do they still hoave the old host in their gamer list at this point?
+            fadsfasdfads;
+            Debugger.Break();
+
             if (oldHostGamer.state != NetworkGamerState.Added)
             {
                 throw new InvalidOperationException("Only gamers in the session can be removed");
             }
 
+            // This wil linvoke the handerl in the game (user code)
             InvokeHostChangedEvent(new HostChangedEventArgs(oldHostGamer, newHostGamer));
         }
 
@@ -848,6 +856,8 @@ namespace Microsoft.Xna.Framework.Net
                 }
                 else if (arg is HostChangedEventArgs)
                 {
+                    // is this being called on the (new) host and all other p[eers?
+                    Debugger.Break();
                     HostChanged.Invoke(this, arg as HostChangedEventArgs);
                 }
             }

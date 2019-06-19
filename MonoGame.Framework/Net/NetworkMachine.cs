@@ -32,7 +32,7 @@ namespace Microsoft.Xna.Framework.Net
             // simple approach, just choose the gamer with the lowest id.
             foreach (NetworkGamer gamer in session.AllGamers)
             {
-                if ((newHost == null || newHost.Id < gamer.Id) &&
+                if ((newHost == null || newHost.Id > gamer.Id) &&
                     !(networkHostMachine.Gamers.Contains(gamer)))
                 {
                     newHost = gamer;

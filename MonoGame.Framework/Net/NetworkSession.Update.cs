@@ -107,22 +107,39 @@ namespace Microsoft.Xna.Framework.Net
 
                             bool removingHost = machineToRemove.isHost;
 
-                            RemoveMachine(machineToRemove);
+                            // Only remove the machine here if they are not the host/
+                            // If they are th ehost, we will need to handle their removal after
+                            // the new host has been assigned and the host changed message has been sent
+                            if (!removingHost)
+                            {
+                                RemoveMachine(machineToRemove);
+                            }
 
                             if (removingHost)
                             {
                                 // am I the new host
                                 isHost = NetworkMachine.AmNewHost(this, machineToRemove);
+#if DEBUG
+                                var not = isHost ? string.Empty : "NOT ";
+
+                                Console.WriteLine($"I ({LocalGamers[0].Id}) am {not}the new host.");
+#endif
                             }
 
                             if (removingHost && isHost)
                             {
+#if DEBUG
+                                Console.WriteLine($"Sending host changed message to {AllGamers.Count - 1} peers.");
+#endif
                                 // tell peers I am the new host
                                 SendHostChanged(machineToRemove.id, localMachine.id);
                             }
                             
                             if (isHost)
                             {
+#if DEBUG
+                                Console.WriteLine($"I ({LocalGamers[0].Id}) am the host so notify clients that machine {machineToRemove.id} is disconnected.");
+#endif
                                 // since we are the host, tell all our clients that a machine/gamer(s)
                                 // has been disconnected from the game...
                                 SendMachineDisconnectedMessage(machineToRemove);

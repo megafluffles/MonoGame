@@ -57,7 +57,7 @@ namespace Microsoft.Xna.Framework.Net
             HostChanged = 12,
         }
 
-        private const int MessageTypeCount = 12;
+        private const int MessageTypeCount = 13;
 
         private NetOutgoingMessage CreateMessageWithHeader(MessageType type, NetworkMachine recipientMachine)
         {
@@ -161,12 +161,14 @@ namespace Microsoft.Xna.Framework.Net
             catch
             {
                 // TODO: Kick machine?
+                Debugger.Break();
                 Debug.WriteLine("Received message with malformed header from machine " + senderMachine.id);
                 return;
             }
             if (headerMsgType >= MessageTypeCount)
             {
                 // TODO: Kick machine?
+                Debugger.Break();
                 Debug.WriteLine("Received message with malformed header from machine " + senderMachine.id);
                 return;
             }
@@ -179,6 +181,7 @@ namespace Microsoft.Xna.Framework.Net
                 if (isHost)
                 {
                     // TODO: Kick machine?
+                    Debugger.Break();
                     Debug.WriteLine("Received message with malformed header from machine " + senderMachine.id);
                 }
                 return;
@@ -190,6 +193,7 @@ namespace Microsoft.Xna.Framework.Net
             if (isHost && senderMachine != originMachine)
             {
                 // TODO: Kick machine?
+                Debugger.Break();
                 Debug.WriteLine("Received message with malformed header from machine " + senderMachine.id);
                 return;
             }
@@ -239,6 +243,9 @@ namespace Microsoft.Xna.Framework.Net
                     break;
                 case MessageType.User:
                     success = ReceiveUserMessage(msg, originMachine);
+                    break;
+                case MessageType.HostChanged:
+                    success = ReceiveHostChanged(msg, originMachine);
                     break;
                 default:
                     throw new NotImplementedException();
@@ -677,7 +684,9 @@ namespace Microsoft.Xna.Framework.Net
             {
                 return false;
             }
-            if (!gamerFromId.ContainsKey(oldHostGamerId))
+            // ensure this gamer is known to us. however, if we are the (new) host,
+            // it is OK that they're not, as we would have already removed them....
+            if (!isHost && !gamerFromId.ContainsKey(oldHostGamerId))
             {
                 return false;
             }
