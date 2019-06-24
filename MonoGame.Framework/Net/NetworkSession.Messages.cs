@@ -147,6 +147,7 @@ namespace Microsoft.Xna.Framework.Net
             {
                 // TODO: Kick machine?
                 Debug.Write("Received empty message from machine " + senderMachine.id);
+                Debugger.Break();
                 return;
             }
 
@@ -248,6 +249,7 @@ namespace Microsoft.Xna.Framework.Net
                     success = ReceiveHostChanged(msg, originMachine);
                     break;
                 default:
+                    Debugger.Break();
                     throw new NotImplementedException();
             }
 
@@ -255,6 +257,7 @@ namespace Microsoft.Xna.Framework.Net
             {
                 // TODO: Kick machine if host and disconnect if client?
                 Debug.WriteLine("Failed to parse last message!");
+                Debugger.Break();
                 return;
             }
 

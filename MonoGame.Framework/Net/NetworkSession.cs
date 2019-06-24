@@ -716,7 +716,6 @@ namespace Microsoft.Xna.Framework.Net
             // So, update our gamer info to replace the old host zero with the new host zero.
 
             // Q: On a peer that is NOT the new host, do they still hoave the old host in their gamer list at this point?
-            fadsfasdfads;
             Debugger.Break();
 
             if (oldHostGamer.state != NetworkGamerState.Added)
