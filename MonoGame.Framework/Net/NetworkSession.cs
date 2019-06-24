@@ -716,7 +716,6 @@ namespace Microsoft.Xna.Framework.Net
             // So, update our gamer info to replace the old host zero with the new host zero.
 
             // Q: On a peer that is NOT the new host, do they still hoave the old host in their gamer list at this point?
-            Debugger.Break();
 
             if (oldHostGamer.state != NetworkGamerState.Added)
             {
@@ -855,8 +854,6 @@ namespace Microsoft.Xna.Framework.Net
                 }
                 else if (arg is HostChangedEventArgs)
                 {
-                    // is this being called on the (new) host and all other p[eers?
-                    Debugger.Break();
                     HostChanged.Invoke(this, arg as HostChangedEventArgs);
                 }
             }

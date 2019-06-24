@@ -106,8 +106,8 @@ namespace Lidgren.Network
 			m_maximumConnections = 32;
 			m_defaultOutgoingMessageCapacity = 16;
 			m_pingInterval = 4.0f;
-			//m_connectionTimeout = 25.0f;
-			m_connectionTimeout = 8.0f;
+			m_connectionTimeout = 25.0f;
+			//m_connectionTimeout = 8.0f;
 			m_useMessageRecycling = true;
 			m_resendHandshakeInterval = 3.0f;
 			m_maximumHandshakeAttempts = 5;

@@ -257,7 +257,6 @@ namespace Microsoft.Xna.Framework.Net
             {
                 // TODO: Kick machine if host and disconnect if client?
                 Debug.WriteLine("Failed to parse last message!");
-                Debugger.Break();
                 return;
             }
 
@@ -543,10 +542,16 @@ namespace Microsoft.Xna.Framework.Net
             }
             catch
             {
+#if DEBUG
+                Debugger.Break();
+#endif
                 return false;
             }
             if (id == 255)
             {
+#if DEBUG
+                Debugger.Break();
+#endif
                 return false;
             }
 
@@ -561,11 +566,17 @@ namespace Microsoft.Xna.Framework.Net
                 if (!gamerFromId.ContainsKey(id))
                 {
                     // Host must know about all gamers
+#if DEBUG
+                    Debugger.Break();
+#endif
                     return false;
                 }
                 if (id == 0)
                 {
                     // Someone is impersonating the host gamer
+#if DEBUG
+                    Debugger.Break();
+#endif
                     return false;
                 }
 
@@ -596,6 +607,9 @@ namespace Microsoft.Xna.Framework.Net
                     // Special case for host gamer
                     if (!originMachine.isHost)
                     {
+#if DEBUG
+                        Debugger.Break();
+#endif
                         return false;
                     }
 
@@ -665,9 +679,6 @@ namespace Microsoft.Xna.Framework.Net
 
         private bool ReceiveHostChanged(NetBuffer msg, NetworkMachine originMachine)
         {
-#if DEBUG
-            System.Diagnostics.Debugger.Break();
-#endif
             byte oldHostGamerId;
             byte newHostGamerId;
             try
