@@ -725,12 +725,12 @@ namespace Microsoft.Xna.Framework.Net
                 throw new InvalidOperationException("Only gamers in the session can be removed");
             }
 
+            // This wil linvoke the handerl in the game (user code)
+            InvokeHostChangedEvent(new HostChangedEventArgs(oldHostGamer, newHostGamer));
+
             // This will change the Gamer ID of the gamer with the lowest ID number
             // on the new host machine to ID zero making them the new host.
             LocalNetworkGamer.ChangeHost(this, oldHostGamer, newHostGamer);
-
-            // This wil linvoke the handerl in the game (user code)
-            InvokeHostChangedEvent(new HostChangedEventArgs(oldHostGamer, newHostGamer));
         }
 
         private void AddPreviousGamer(NetworkGamer gamer)
