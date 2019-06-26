@@ -257,6 +257,7 @@ namespace Microsoft.Xna.Framework.Net
             {
                 // TODO: Kick machine if host and disconnect if client?
                 Debug.WriteLine("Failed to parse last message!");
+                Debugger.Break(); // this is happening on new host when host changes, and clients never receive the message.
                 return;
             }
 
@@ -400,6 +401,10 @@ namespace Microsoft.Xna.Framework.Net
         {
             if (!originMachine.isHost)
             {
+#if DEBUG
+                Debugger.Break();
+                Debug.WriteLine($"Rejecting disconnect message from non-host machine id {originMachine.id}");
+#endif
                 return false;
             }
             byte id;
@@ -409,6 +414,9 @@ namespace Microsoft.Xna.Framework.Net
             }
             catch
             {
+#if DEBUG
+                Debugger.Break();
+#endif
                 return false;
             }
             if (id == localMachine.id)
@@ -688,24 +696,39 @@ namespace Microsoft.Xna.Framework.Net
             }
             catch
             {
+#if DEBUG
+                Debugger.Break();
+#endif
                 return false;
             }
             if (oldHostGamerId == 255)
             {
+#if DEBUG
+                Debugger.Break();
+#endif
                 return false;
             }
             if (newHostGamerId == 255)
             {
+#if DEBUG
+                Debugger.Break();
+#endif
                 return false;
             }
             // ensure this gamer is known to us. however, if we are the (new) host,
             // it is OK that they're not, as we would have already removed them....
             if (!isHost && !gamerFromId.ContainsKey(oldHostGamerId))
             {
+#if DEBUG
+                Debugger.Break();
+#endif
                 return false;
             }
             if (!gamerFromId.ContainsKey(newHostGamerId))
             {
+#if DEBUG
+                Debugger.Break();
+#endif
                 return false;
             }
             var oldHostGamer = gamerFromId[oldHostGamerId];

@@ -326,5 +326,12 @@ namespace Microsoft.Xna.Framework.Net
             throw new NotImplementedException();
         }
 
+        internal static void ChangeHost(NetworkSession session, NetworkGamer oldHostGamer, NetworkGamer newHostGamer)
+        {
+#if DEBUG
+            System.Diagnostics.Debugger.Break();
+#endif
+            newHostGamer.id = 0;
+        }
     }
 }

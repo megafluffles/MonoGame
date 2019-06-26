@@ -25,7 +25,7 @@ namespace Microsoft.Xna.Framework.Net
     {
         protected readonly NetworkSession session;
         internal readonly NetworkMachine machine;
-        internal readonly byte id;
+        internal byte id;
         internal bool isPrivateSlot;
         internal bool isReady;
 

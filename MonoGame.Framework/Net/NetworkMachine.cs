@@ -39,6 +39,8 @@ namespace Microsoft.Xna.Framework.Net
                 }
             }
 
+            newHost.machine.isHost = true;
+
             return newHost.IsLocal;
         }
 
