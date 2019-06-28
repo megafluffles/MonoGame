@@ -862,7 +862,10 @@ namespace Microsoft.Xna.Framework.Net
 
 #if DEBUG
                     // todo assert count gamers where id == 0 is 1. this will fail i think as code currently stands.
-                    fdasfdas;
+                    var assertVal = AllGamers.OfType<NetworkGamer>().Where(g => g.Id == 0).Count() == 1;
+                    //Debug.Assert(assertVal);
+                    Debugger.Break(); // did assert fail??? it should have. also, will session_gamerleft be called after this
+                    // to try to remove the old host???? if not, why not?!
 #endif
                 }
             }
