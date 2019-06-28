@@ -712,11 +712,6 @@ namespace Microsoft.Xna.Framework.Net
 
         private void ChangeHost(NetworkGamer oldHostGamer, NetworkGamer newHostGamer)
         {
-            // TODO: Host ID is ALWAYS zero. If old host leavees, new host changes to zero.
-            // So, update our gamer info to replace the old host zero with the new host zero.
-
-            // Q: On a peer that is NOT the new host, do they still hoave the old host in their gamer list at this point?
-
             if (oldHostGamer.state != NetworkGamerState.Added)
             {
 #if DEBUG
@@ -727,10 +722,6 @@ namespace Microsoft.Xna.Framework.Net
 
             // This wil linvoke the handerl in the game (user code)
             InvokeHostChangedEvent(new HostChangedEventArgs(oldHostGamer, newHostGamer));
-
-            // This will change the Gamer ID of the gamer with the lowest ID number
-            // on the new host machine to ID zero making them the new host.
-            LocalNetworkGamer.ChangeHost(this, oldHostGamer, newHostGamer);
         }
 
         private void AddPreviousGamer(NetworkGamer gamer)
@@ -861,7 +852,18 @@ namespace Microsoft.Xna.Framework.Net
                 }
                 else if (arg is HostChangedEventArgs)
                 {
-                    HostChanged.Invoke(this, arg as HostChangedEventArgs);
+                    var hostChangedArgs = arg as HostChangedEventArgs;
+
+                    HostChanged.Invoke(this, hostChangedArgs);
+
+                    // This will change the Gamer ID of the gamer with the lowest ID number
+                    // on the new host machine to ID zero making them the new host.
+                    LocalNetworkGamer.ChangeHost(this, hostChangedArgs.OldHost, hostChangedArgs.NewHost);
+
+#if DEBUG
+                    // todo assert count gamers where id == 0 is 1. this will fail i think as code currently stands.
+                    fdasfdas;
+#endif
                 }
             }
 
