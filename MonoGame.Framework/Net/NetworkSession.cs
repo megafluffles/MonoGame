@@ -856,17 +856,11 @@ namespace Microsoft.Xna.Framework.Net
 
                     HostChanged.Invoke(this, hostChangedArgs);
 
+                    RemoveGamer(hostChangedArgs.OldHost);
+
                     // This will change the Gamer ID of the gamer with the lowest ID number
                     // on the new host machine to ID zero making them the new host.
                     LocalNetworkGamer.ChangeHost(this, hostChangedArgs.OldHost, hostChangedArgs.NewHost);
-
-#if DEBUG
-                    // todo assert count gamers where id == 0 is 1. this will fail i think as code currently stands.
-                    var assertVal = AllGamers.OfType<NetworkGamer>().Where(g => g.Id == 0).Count() == 1;
-                    //Debug.Assert(assertVal);
-                    Debugger.Break(); // did assert fail??? it should have. also, will session_gamerleft be called after this
-                    // to try to remove the old host???? if not, why not?!
-#endif
                 }
             }
 
